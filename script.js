@@ -1,65 +1,63 @@
 "use strict";
 
-const message = document.querySelector(".message");
+const body = document.querySelector("body");
+const again = document.querySelector(".again");
+
 const input = document.querySelector(".guess");
 const check = document.querySelector(".check");
+
+const message = document.querySelector(".message");
 const numberBox = document.querySelector(".number");
 const scoreBox = document.querySelector(".score");
 const highscoreBox = document.querySelector(".highscore");
-const body = document.querySelector("body");
-const again = document.querySelector(".again");
 
 let score = 20;
 let highscore = 0;
 let secretNumber = Math.trunc(Math.random() * 20) + 1;
-console.log(secretNumber);
+
+const displayMessage = (content) => (message.textContent = content);
+const displayNumber = (content) => (numberBox.textContent = content);
+const displayScore = (content) => (scoreBox.textContent = content);
+const displayHighscore = (content) => (highscoreBox.textContent = content);
 
 check.addEventListener("click", () => {
   let value = parseInt(input.value);
-
   if (!value) {
-    message.textContent = "Please select a number";
+    displayMessage("Please select a number");
   }
+  //IF ENTERED VALUE IS THE SAME
   if (value === secretNumber) {
-    message.textContent = `The number is the same! your score was ${score}`;
+    displayMessage(`The number is the same! your score was ${score}`);
     if (score > highscore) {
-      highscoreBox.textContent = score;
+      displayHighscore(score);
     }
     body.style.backgroundColor = "#60b347";
-    numberBox.textContent = secretNumber;
+    displayNumber(secretNumber);
     numberBox.style.width = "30rem";
-  } else if (value > secretNumber) {
+    //IF ENTERED NUMBER IS NOT THE
+  } else if (value !== secretNumber) {
     if (score > 1) {
-      message.textContent = "The number is too high";
+      displayMessage(
+        `The number is too ${value > secretNumber ? "high" : "low"}`
+      );
       score--;
-      scoreBox.textContent = score;
+      displayScore(score);
     } else {
       body.style.backgroundColor = "red";
-      message.textContent = "Game over";
+      displayMessage("Game over!");
       score = 0;
-      scoreBox.textContent = score;
-    }
-  } else if (value < secretNumber) {
-    if (score > 1) {
-      message.textContent = "The number is too low";
-      score--;
-      scoreBox.textContent = score;
-    } else {
-      body.style.backgroundColor = "red";
-      message.textContent = "Game over";
-      score = 0;
-      scoreBox.textContent = score;
+      displayScore(score);
     }
   }
 });
 
 again.addEventListener("click", () => {
   score = 20;
-  scoreBox.textContent = score;
+  displayScore(score);
   secretNumber = Math.trunc(Math.random() * 20) + 1;
   body.style.backgroundColor = "#222";
   numberBox.style.width = "15rem";
-  numberBox.textContent = "?";
-  message.textContent = "Start guessing...";
+  displayNumber("?");
+  displayMessage("Start guessing...");
   input.value = "";
 });
