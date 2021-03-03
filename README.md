@@ -8,4 +8,4 @@
 * Computer will return if number is correct, too high or too low
 * Score reduces by 1 each time. High score is also implemented
 * Mainly focused on the logic behind the game
-* Aimed for DRY aproach
+* Aimed for DRY approach
